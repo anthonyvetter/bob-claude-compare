@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!--
+      Security headers — set these on the server, not in meta tags for full effect.
+      Content-Security-Policy: default-src 'self'
+      X-Frame-Options: DENY
+      X-Content-Type-Options: nosniff
+      Referrer-Policy: no-referrer
+    -->
+    <title>Sign In — Customer Portal</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="page">
+      <div class="card">
+        <div class="card__header">
+          <div class="logo" aria-hidden="true">CP</div>
+          <h1 class="card__title">Sign in to your account</h1>
+          <p class="card__subtitle">Customer Portal</p>
+        </div>
+
+        <form
+          id="loginForm"
+          class="form"
+          method="POST"
+          action="/api/auth/login"
+          novalidate
+        >
+          <!-- CSRF token — populated server-side -->
+          <input type="hidden" name="_csrf" value="" />
+
+          <div class="form__group" id="emailGroup">
+            <label class="form__label" for="email">Email address</label>
+            <input
+              class="form__input"
+              type="email"
+              id="email"
+              name="email"
+              autocomplete="email"
+              inputmode="email"
+              placeholder="you@example.com"
+              required
+              aria-required="true"
+              aria-describedby="emailError"
+            />
+            <span class="form__error" id="emailError" role="alert" aria-live="polite"></span>
+          </div>
+
+          <div class="form__group" id="passwordGroup">
+            <div class="form__label-row">
+              <label class="form__label" for="password">Password</label>
+              <a class="form__link" href="/forgot-password">Forgot password?</a>
+            </div>
+            <div class="form__input-wrapper">
+              <input
+                class="form__input"
+                type="password"
+                id="password"
+                name="password"
+                autocomplete="current-password"
+                placeholder="Enter your password"
+                required
+                aria-required="true"
+                aria-describedby="passwordError"
+              />
+              <button
+                type="button"
+                class="form__toggle"
+                id="togglePassword"
+                aria-label="Show password"
+                aria-pressed="false"
+              >
+                <svg class="icon icon--show" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+                <svg class="icon icon--hide" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none">
+                  <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
+                  <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
+                  <line x1="1" y1="1" x2="23" y2="23"/>
+                </svg>
+              </button>
+            </div>
+            <span class="form__error" id="passwordError" role="alert" aria-live="polite"></span>
+          </div>
+
+          <div class="form__group form__group--inline">
+            <label class="checkbox">
+              <input
+                class="checkbox__input"
+                type="checkbox"
+                id="rememberMe"
+                name="rememberMe"
+              />
+              <span class="checkbox__box" aria-hidden="true"></span>
+              <span class="checkbox__label">Remember me for 30 days</span>
+            </label>
+          </div>
+
+          <div class="form__banner" id="formBanner" role="alert" aria-live="assertive" hidden>
+            <svg class="icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12" y2="12"/>
+              <line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+            <span id="formBannerText"></span>
+          </div>
+
+          <button class="btn btn--primary" type="submit" id="submitBtn">
+            <span class="btn__label">Sign in</span>
+            <span class="btn__spinner" aria-hidden="true" hidden></span>
+          </button>
+        </form>
+
+        <p class="card__footer">
+          Don't have an account?
+          <a class="form__link" href="/register">Request access</a>
+        </p>
+      </div>
+    </main>
+    <script src="login.js"></script>
+  </body>
+</html>
