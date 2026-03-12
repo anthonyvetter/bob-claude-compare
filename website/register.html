@@ -11,27 +11,49 @@
       X-Content-Type-Options: nosniff
       Referrer-Policy: no-referrer
     -->
-    <title>Sign In — Customer Portal</title>
+    <title>Request Access — Customer Portal</title>
     <link rel="stylesheet" href="styles.css" />
+    <style>
+      /* Extra right padding for password fields with visibility toggles */
+      #confirmPassword {
+        padding-right: 2.75rem;
+      }
+    </style>
   </head>
   <body>
     <main class="page">
       <div class="card">
         <div class="card__header">
           <div class="logo" aria-hidden="true">CP</div>
-          <h1 class="card__title">Sign in to your account</h1>
+          <h1 class="card__title">Request access</h1>
           <p class="card__subtitle">Customer Portal</p>
         </div>
 
         <form
-          id="loginForm"
+          id="registerForm"
           class="form"
           method="POST"
-          action="/api/auth/login"
+          action="/api/auth/register"
           novalidate
         >
           <!-- CSRF token — populated server-side -->
           <input type="hidden" name="_csrf" value="" />
+
+          <div class="form__group" id="fullNameGroup">
+            <label class="form__label" for="fullName">Full name</label>
+            <input
+              class="form__input"
+              type="text"
+              id="fullName"
+              name="fullName"
+              autocomplete="name"
+              placeholder="Jane Smith"
+              required
+              aria-required="true"
+              aria-describedby="fullNameError"
+            />
+            <span class="form__error" id="fullNameError" role="alert" aria-live="polite"></span>
+          </div>
 
           <div class="form__group" id="emailGroup">
             <label class="form__label" for="email">Email address</label>
@@ -51,18 +73,15 @@
           </div>
 
           <div class="form__group" id="passwordGroup">
-            <div class="form__label-row">
-              <label class="form__label" for="password">Password</label>
-              <a class="form__link" href="/forgot-password">Forgot password?</a>
-            </div>
+            <label class="form__label" for="password">Password</label>
             <div class="form__input-wrapper">
               <input
                 class="form__input"
                 type="password"
                 id="password"
                 name="password"
-                autocomplete="current-password"
-                placeholder="Enter your password"
+                autocomplete="new-password"
+                placeholder="At least 8 characters"
                 required
                 aria-required="true"
                 aria-describedby="passwordError"
@@ -88,17 +107,39 @@
             <span class="form__error" id="passwordError" role="alert" aria-live="polite"></span>
           </div>
 
-          <div class="form__group form__group--inline">
-            <label class="checkbox">
+          <div class="form__group" id="confirmPasswordGroup">
+            <label class="form__label" for="confirmPassword">Confirm password</label>
+            <div class="form__input-wrapper">
               <input
-                class="checkbox__input"
-                type="checkbox"
-                id="rememberMe"
-                name="rememberMe"
+                class="form__input"
+                type="password"
+                id="confirmPassword"
+                name="confirmPassword"
+                autocomplete="new-password"
+                placeholder="Re-enter your password"
+                required
+                aria-required="true"
+                aria-describedby="confirmPasswordError"
               />
-              <span class="checkbox__box" aria-hidden="true"></span>
-              <span class="checkbox__label">Remember me for 30 days</span>
-            </label>
+              <button
+                type="button"
+                class="form__toggle"
+                id="toggleConfirmPassword"
+                aria-label="Show password"
+                aria-pressed="false"
+              >
+                <svg class="icon icon--show" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+                <svg class="icon icon--hide" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none">
+                  <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
+                  <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
+                  <line x1="1" y1="1" x2="23" y2="23"/>
+                </svg>
+              </button>
+            </div>
+            <span class="form__error" id="confirmPasswordError" role="alert" aria-live="polite"></span>
           </div>
 
           <div class="form__banner" id="formBanner" role="alert" aria-live="assertive" hidden>
@@ -111,17 +152,23 @@
           </div>
 
           <button class="btn btn--primary" type="submit" id="submitBtn">
-            <span class="btn__label">Sign in</span>
+            <span class="btn__label">Request access</span>
             <span class="btn__spinner" aria-hidden="true" hidden></span>
           </button>
         </form>
 
+        <div id="successMessage" hidden>
+          <p style="text-align:center; color: var(--color-text-secondary); font-size: var(--font-size-sm); line-height: 1.6;">
+            Your request has been submitted. We'll review it and be in touch soon.
+          </p>
+        </div>
+
         <p class="card__footer">
-          Don't have an account?
-          <a class="form__link" href="register.html">Request access</a>
+          Already have an account?
+          <a class="form__link" href="index.html">Sign in</a>
         </p>
       </div>
     </main>
-    <script src="login.js"></script>
+    <script src="register.js"></script>
   </body>
 </html>
